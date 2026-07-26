@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Weather-aware cocktail recommendations, paired to the forecast in your city.">
+  <meta name="theme-color" content="#121014">
+  <title>Aeromix — Pour the forecast</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#recommendations">Skip to recommendations</a>
+
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Aeromix home">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span>AEROMIX</span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#recommendations">The pour</a>
+      <a href="#method">Our method</a>
+      <button class="saved-link" id="savedLink" type="button">
+        Saved <span id="savedCount">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-image" role="img" aria-label="Three cocktails beside a rain-covered window"></div>
+      <div class="hero-scrim"></div>
+      <div class="hero-content">
+        <p class="eyebrow"><span></span> Weather-paired cocktails</p>
+        <h1 id="hero-title">Pour the<br><em>forecast.</em></h1>
+        <p class="hero-copy">Your weather has a flavor. Tell us where you are, and we’ll match the atmosphere to your next glass.</p>
+
+        <form class="weather-search" id="weatherForm">
+          <label for="cityInput">Your city</label>
+          <div class="search-shell">
+            <span class="location-icon" aria-hidden="true">⌖</span>
+            <input id="cityInput" name="city" type="search" value="Chicago"
+                   placeholder="Search a city" autocomplete="off" minlength="2" maxlength="100"
+                   aria-autocomplete="list" aria-controls="suggestions" aria-expanded="false" required>
+            <button type="submit">
+              <span>Read the weather</span><span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="suggestions" id="suggestions" role="listbox" aria-label="Location suggestions"></div>
+        </form>
+
+        <div class="quick-cities" aria-label="Quick city choices">
+          <span>Try</span>
+          <button type="button" data-city="New York">New York</button>
+          <button type="button" data-city="London">London</button>
+          <button type="button" data-city="Tokyo">Tokyo</button>
+        </div>
+      </div>
+
+      <div class="weather-ribbon" id="weatherRibbon" aria-live="polite">
+        <div class="ribbon-loading">
+          <span class="pulse-dot"></span>
+          Reading Chicago’s atmosphere…
+        </div>
+      </div>
+    </section>
+
+    <section class="discovery" id="recommendations" aria-labelledby="recommendations-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow dark"><span></span> Tonight’s edit</p>
+          <h2 id="recommendations-title">Made for this<br><em>moment.</em></h2>
+        </div>
+        <p id="pairingNarrative">We’re translating temperature, sky, and season into a considered shortlist.</p>
+      </div>
+
+      <div class="preferences" aria-label="Recommendation preferences">
+        <div class="preference-group">
+          <span class="preference-label">Base</span>
+          <div class="choice-row" id="spiritChoices">
+            <button class="choice active" type="button" data-spirit="any" aria-pressed="true">Any</button>
+            <button class="choice" type="button" data-spirit="gin" aria-pressed="false">Gin</button>
+            <button class="choice" type="button" data-spirit="whiskey" aria-pressed="false">Whiskey</button>
+            <button class="choice" type="button" data-spirit="rum" aria-pressed="false">Rum</button>
+            <button class="choice" type="button" data-spirit="vodka" aria-pressed="false">Vodka</button>
+            <button class="choice" type="button" data-spirit="tequila" aria-pressed="false">Tequila</button>
+          </div>
+        </div>
+        <div class="preference-group">
+          <span class="preference-label">Style</span>
+          <div class="choice-row" id="alcoholChoices">
+            <button class="choice active" type="button" data-alcohol="any" aria-pressed="true">All</button>
+            <button class="choice" type="button" data-alcohol="true" aria-pressed="false">Cocktails</button>
+            <button class="choice" type="button" data-alcohol="false" aria-pressed="false">Zero-proof</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-line" id="statusLine" aria-live="polite"></div>
+      <div class="cocktail-grid" id="cocktailGrid" aria-live="polite" aria-busy="true">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </section>
+
+    <section class="method" id="method" aria-labelledby="method-title">
+      <div class="method-intro">
+        <p class="eyebrow"><span></span> Forecast to flavor</p>
+        <h2 id="method-title">Not random.<br><em>Atmospheric.</em></h2>
+        <p>Aeromix combines live conditions with a curated flavor model, then tunes the result for the season and your preferred base.</p>
+      </div>
+      <ol class="method-steps">
+        <li>
+          <span class="step-number">01</span>
+          <div class="step-icon" aria-hidden="true">☼</div>
+          <h3>Read the air</h3>
+          <p>Temperature, precipitation, wind, humidity, and sky condition come together in one live weather profile.</p>
+        </li>
+        <li>
+          <span class="step-number">02</span>
+          <div class="step-icon" aria-hidden="true">◇</div>
+          <h3>Translate the mood</h3>
+          <p>Bright skies lean citrus and herbal. Cold fronts invite spice, amber spirits, and richer texture.</p>
+        </li>
+        <li>
+          <span class="step-number">03</span>
+          <div class="step-icon" aria-hidden="true">◡</div>
+          <h3>Make it yours</h3>
+          <p>Your spirit and zero-proof preferences refine the shortlist without losing the weather connection.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="closing">
+      <p class="eyebrow dark"><span></span> The forecast changes</p>
+      <h2>So should<br><em>the menu.</em></h2>
+      <button id="refreshButton" type="button">Refresh tonight’s edit <span aria-hidden="true">↻</span></button>
+    </section>
+  </main>
+
+  <footer>
+    <div class="brand footer-brand"><span class="brand-mark" aria-hidden="true">A</span><span>AEROMIX</span></div>
+    <p>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open‑Meteo</a>. Please enjoy responsibly.</p>
+    <p>Built with Java, JSON, XML &amp; SQL.</p>
+  </footer>
+
+  <dialog class="recipe-dialog" id="recipeDialog" aria-labelledby="dialogTitle">
+    <button class="dialog-close" id="dialogClose" type="button" aria-label="Close recipe">×</button>
+    <div class="dialog-art" id="dialogArt">
+      <span id="dialogScore">95% match</span>
+      <div class="dialog-glass" aria-hidden="true"></div>
+    </div>
+    <div class="dialog-content">
+      <p class="eyebrow dark"><span></span> Weather selected</p>
+      <h2 id="dialogTitle"></h2>
+      <p class="dialog-summary" id="dialogSummary"></p>
+      <div class="dialog-meta" id="dialogMeta"></div>
+      <h3>What you’ll need</h3>
+      <ul class="ingredient-list" id="ingredientList"></ul>
+      <h3>How to make it</h3>
+      <p id="dialogInstructions"></p>
+      <button class="save-recipe" id="saveRecipe" type="button">Save this pour</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

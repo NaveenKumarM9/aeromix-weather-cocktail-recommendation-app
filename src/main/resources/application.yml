@@ -1,0 +1,94 @@
+spring:
+  application:
+    name: CocktailWeather
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
+  datasource:
+    url: ${DATABASE_URL:jdbc:h2:file:./data/cocktail-weather;MODE=PostgreSQL;AUTO_SERVER=TRUE}
+    username: ${DATABASE_USERNAME:sa}
+    password: ${DATABASE_PASSWORD:}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+      minimum-idle: 2
+      connection-timeout: 3000
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+  mvc:
+    problemdetails:
+      enabled: true
+
+server:
+  port: ${PORT:8080}
+  compression:
+    enabled: true
+    mime-types: application/json,text/html,text/css,application/javascript
+  error:
+    include-message: never
+    include-stacktrace: never
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when_authorized
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: CocktailWeather
+    description: Weather-aware cocktail recommendations
+    version: "@project.version@"
+
+app:
+  weather:
+    forecast-base-url: ${WEATHER_FORECAST_URL:https://api.open-meteo.com/v1/forecast}
+    geocoding-base-url: ${WEATHER_GEOCODING_URL:https://geocoding-api.open-meteo.com/v1/search}
+    api-key: ${WEATHER_API_KEY:}
+    default-city: ${DEFAULT_CITY:Chicago}
+    cache-minutes: ${WEATHER_CACHE_MINUTES:10}
+  recommendations:
+    default-limit: 6
+    maximum-limit: 12
+
+logging:
+  level:
+    root: INFO
+    com.naveenk.cocktailweather: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%thread] %logger{36} - %msg%n"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        format_sql: false
+server:
+  forward-headers-strategy: framework
+management:
+  server:
+    port: ${MANAGEMENT_PORT:8081}

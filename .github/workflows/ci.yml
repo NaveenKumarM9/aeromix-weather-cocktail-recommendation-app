@@ -1,0 +1,98 @@
+name: Build and verify
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+
+      - name: Test and package
+        run: ./mvnw -B -ntp clean verify
+
+      - name: Upload application artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: cocktail-weather
+          path: target/cocktail-weather.jar
+          if-no-files-found: error
+
+  postgres-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:18.4-alpine3.23
+        env:
+          POSTGRES_DB: cocktail_weather
+          POSTGRES_USER: cocktail
+          POSTGRES_PASSWORD: ci-only-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U cocktail -d cocktail_weather"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+
+      - name: Package without repeating the unit suite
+        run: ./mvnw -B -ntp -DskipTests package
+
+      - name: Start the production profile
+        env:
+          SPRING_PROFILES_ACTIVE: prod
+          DATABASE_URL: jdbc:postgresql://localhost:5432/cocktail_weather
+          DATABASE_USERNAME: cocktail
+          DATABASE_PASSWORD: ci-only-password
+          MANAGEMENT_PORT: "8081"
+        run: |
+          nohup java -jar target/cocktail-weather.jar > /tmp/cocktail-weather.log 2>&1 &
+          echo $! > /tmp/cocktail-weather.pid
+
+      - name: Verify migrations, health, and SQL-backed API
+        run: |
+          for attempt in {1..40}; do
+            if curl --fail --silent http://localhost:8081/actuator/health/readiness; then
+              curl --fail --silent \
+                http://localhost:8080/api/v1/cocktails/citrus-sky-collins \
+                | grep --quiet '"slug":"citrus-sky-collins"'
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/cocktail-weather.log
+          exit 1
+
+      - name: Stop the application
+        if: always()
+        run: |
+          if [ -f /tmp/cocktail-weather.pid ]; then
+            kill "$(cat /tmp/cocktail-weather.pid)" || true
+          fi
