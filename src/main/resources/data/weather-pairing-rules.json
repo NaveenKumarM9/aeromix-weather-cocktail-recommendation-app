@@ -1,0 +1,52 @@
+{
+  "rules": [
+    {
+      "group": "SUNNY",
+      "label": "bright, clear weather",
+      "narrative": "Sunlit conditions favor crisp citrus, lifted herbs, and clean sparkling finishes.",
+      "preferredTags": ["citrus", "bright", "fresh", "sparkling", "refreshing", "light"]
+    },
+    {
+      "group": "CLOUDY",
+      "label": "soft, overcast weather",
+      "narrative": "Cloud cover pairs beautifully with balanced fruit, gentle botanicals, and rounded texture.",
+      "preferredTags": ["berry", "botanical", "floral", "smooth", "fruity", "elegant"]
+    },
+    {
+      "group": "RAINY",
+      "label": "rainy weather",
+      "narrative": "Rain calls for deeper fruit, warming spice, and a little aromatic drama.",
+      "preferredTags": ["berry", "spiced", "rich", "botanical", "cozy", "ginger"]
+    },
+    {
+      "group": "SNOWY",
+      "label": "snowy weather",
+      "narrative": "Snowy air rewards warming spice, creamy texture, and slow-sipping depth.",
+      "preferredTags": ["warm", "creamy", "rich", "spiced", "roasted", "smooth"]
+    },
+    {
+      "group": "STORMY",
+      "label": "stormy weather",
+      "narrative": "Electric skies stand up to bold spirits, ginger heat, smoke, and vivid acidity.",
+      "preferredTags": ["bold", "spicy", "smoky", "ginger", "zesty", "tart"]
+    },
+    {
+      "group": "HOT",
+      "label": "hot weather",
+      "narrative": "High temperatures need long, cooling drinks with citrus, mint, and plenty of lift.",
+      "preferredTags": ["cooling", "minty", "citrus", "refreshing", "salty", "light"]
+    },
+    {
+      "group": "COLD",
+      "label": "cold weather",
+      "narrative": "Cold air invites amber spirits, baking spice, roasted notes, and richer texture.",
+      "preferredTags": ["warm", "spiced", "rich", "roasted", "smoky", "cozy"]
+    },
+    {
+      "group": "BALANCED",
+      "label": "mild weather",
+      "narrative": "Mild conditions leave room for balanced flavor, fresh aromatics, and an easy finish.",
+      "preferredTags": ["balanced", "fresh", "citrus", "smooth", "fruity", "herbal"]
+    }
+  ]
+}

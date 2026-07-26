@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seasonal-overrides>
+  <season name="winter" months="12,1,2">
+    <boost cocktail="maple-ember-old-fashioned" points="12"/>
+    <boost cocktail="cocoa-cabin-flip" points="14"/>
+    <boost cocktail="frosted-cranberry-fizz" points="10"/>
+  </season>
+  <season name="spring" months="3,4,5">
+    <boost cocktail="garden-after-rain" points="14"/>
+    <boost cocktail="cloudline-french-75" points="9"/>
+    <boost cocktail="alpine-pear-mule" points="8"/>
+  </season>
+  <season name="summer" months="6,7,8">
+    <boost cocktail="solar-paloma" points="14"/>
+    <boost cocktail="heatwave-mojito" points="14"/>
+    <boost cocktail="citrus-sky-collins" points="10"/>
+  </season>
+  <season name="autumn" months="9,10,11">
+    <boost cocktail="rainy-night-bramble" points="10"/>
+    <boost cocktail="thunder-manhattan" points="12"/>
+    <boost cocktail="midnight-espresso-martini" points="9"/>
+  </season>
+</seasonal-overrides>
