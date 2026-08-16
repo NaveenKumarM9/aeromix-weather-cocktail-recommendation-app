@@ -27,7 +27,7 @@ jobs:
 
   scan-pr:
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'merge_group' }}
-    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@3adb4b14a2b0623876d18d863a498b785fb3752d
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@f4cfcc01edc9c8b756a9b873b7a623ca674da51e
     with:
       scan-args: |-
         --include-git-root
