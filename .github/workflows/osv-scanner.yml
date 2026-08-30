@@ -18,7 +18,7 @@ permissions:
 jobs:
   scan-scheduled:
     if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
-    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@3adb4b14a2b0623876d18d863a498b785fb3752d
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@ffa0a5f39214d80778c9b494822d94d0d9668458
     with:
       scan-args: |-
         --include-git-root
